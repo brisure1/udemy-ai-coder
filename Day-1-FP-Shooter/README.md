@@ -1,6 +1,6 @@
 FP Shooter — Day 1
 
-A minimal browser-based first-person shooter using Three.js.
+A minimal browser-based first-person shooter using Three.js
 
 Controls
 
