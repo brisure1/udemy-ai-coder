@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    />
+    <title>Day 1 — FP Shooter</title>
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.154.0/build/three.module.js",
+          "three/": "https://unpkg.com/three@0.154.0/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="hud">
+      <div id="health">Health: 100</div>
+      <div id="enemyHealth">Enemy: 100</div>
+      <div id="message">Click to play. Move: WASD, Look: mouse, Shoot: Space</div>
+    </div>
+
+    <script
+      type="module"
+      src="main.js"
+    ></script>
+  </body>
+</html>
