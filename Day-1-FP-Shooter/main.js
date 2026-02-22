@@ -10,6 +10,8 @@ let clock = new THREE.Clock();
 let playerHealth = 100;
 let enemyHealth = 100;
 const arenaSize = 60;
+// whether gameplay updates (movement, AI, bullets) should run
+let gameStarted = false;
 
 function init() {
   // renderer
@@ -101,7 +103,10 @@ function init() {
     });
   }
 
-  controls.addEventListener('lock', () => {});
+  controls.addEventListener('lock', () => {
+    // start the game when the pointer is locked (first click)
+    gameStarted = true;
+  });
   controls.addEventListener('unlock', () => {
     document.getElementById('message').style.display = 'block';
   });
@@ -239,6 +244,8 @@ function updateBullets(dt) {
 
 function endGame(playerWon) {
   controls.unlock();
+  // pause gameplay until user clicks to start again
+  gameStarted = false;
   const msg = playerWon ? 'You win! Click to play again.' : 'You died. Click to retry.';
   document.getElementById('message').textContent = msg;
   document.getElementById('message').style.display = 'block';
@@ -287,6 +294,11 @@ function enemyAI(dt) {
 function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(0.05, clock.getDelta());
+  // always render the scene, but only run gameplay updates after start
+  if (!gameStarted) {
+    renderer.render(scene, camera);
+    return;
+  }
 
   // player movement
   const speed = 6.0;
