@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  background: #111;
+}
+canvas {
+  display: block;
+}
+#hud {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  color: #fff;
+  z-index: 10;
+}
+#hud div {
+  margin-bottom: 6px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+#message {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10px;
+  background: rgba(0, 0, 0, 0.6);
+}
+/* make the message clearly clickable */
+#message {
+  cursor: pointer;
+  pointer-events: auto;
+}
