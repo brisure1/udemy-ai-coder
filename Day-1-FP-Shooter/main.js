@@ -70,48 +70,78 @@ function init() {
   playerCollider.name = 'player';
   scene.add(playerCollider);
 
-  // enemy with a simple face (body + eyes + mouth + brows)
+  // enemy with humanoid appearance
   const enemy = new THREE.Group();
-  // body
-  const bodyGeo = new THREE.BoxGeometry(1.2, 1.8, 1.2);
-  const bodyMat = new THREE.MeshPhongMaterial({ color: 0x7a2222 });
-  const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.position.set(0, 0, 0);
-  enemy.add(body);
 
-  // eyes (glowing)
-  const eyeGeo = new THREE.SphereGeometry(0.12, 8, 8);
-  const eyeMat = new THREE.MeshPhongMaterial({ color: 0xffdd55, emissive: 0xff3300 });
+  // torso (cylinder for more human-like shape)
+  const torsoGeo = new THREE.CylinderGeometry(0.4, 0.42, 1.0, 8);
+  const torsoMat = new THREE.MeshPhongMaterial({ color: 0x8b4513 }); // brown shirt
+  const torso = new THREE.Mesh(torsoGeo, torsoMat);
+  torso.position.set(0, -0.1, 0);
+  enemy.add(torso);
+
+  // head (sphere for more human-like)
+  const headGeo = new THREE.SphereGeometry(0.3, 16, 16);
+  const headMat = new THREE.MeshPhongMaterial({ color: 0xd4a574 }); // skin tone
+  const head = new THREE.Mesh(headGeo, headMat);
+  head.position.set(0, 0.65, 0);
+  enemy.add(head);
+
+  // eyes (glowing with pupils)
+  const eyeGeo = new THREE.SphereGeometry(0.1, 8, 8);
+  const eyeMat = new THREE.MeshPhongMaterial({ color: 0xffffff });
   const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
   const rightEye = leftEye.clone();
-  leftEye.position.set(0.28, 0.22, 0.63);
-  rightEye.position.set(-0.28, 0.22, 0.63);
+  leftEye.position.set(0.15, 0.85, 0.25);
+  rightEye.position.set(-0.15, 0.85, 0.25);
   enemy.add(leftEye);
   enemy.add(rightEye);
 
-  // brows (angry look)
-  const browGeo = new THREE.BoxGeometry(0.42, 0.06, 0.06);
-  const browMat = new THREE.MeshPhongMaterial({ color: 0x0b0b0b });
+  // pupils (glowing)
+  const pupilGeo = new THREE.SphereGeometry(0.04, 8, 8);
+  const pupilMat = new THREE.MeshPhongMaterial({ color: 0xff3300, emissive: 0xff3300 });
+  const lpupil = new THREE.Mesh(pupilGeo, pupilMat);
+  const rpupil = lpupil.clone();
+  lpupil.position.set(0.15, 0.85, 0.32);
+  rpupil.position.set(-0.15, 0.85, 0.32);
+  enemy.add(lpupil);
+  enemy.add(rpupil);
+
+  // angry brows
+  const browGeo = new THREE.BoxGeometry(0.25, 0.05, 0.05);
+  const browMat = new THREE.MeshPhongMaterial({ color: 0x3d2817 });
   const lb = new THREE.Mesh(browGeo, browMat);
   const rb = lb.clone();
-  lb.position.set(0.28, 0.46, 0.58);
-  rb.position.set(-0.28, 0.46, 0.58);
-  lb.rotation.z = -0.35;
-  rb.rotation.z = 0.35;
+  lb.position.set(0.15, 0.95, 0.25);
+  rb.position.set(-0.15, 0.95, 0.25);
+  lb.rotation.z = -0.3;
+  rb.rotation.z = 0.3;
   enemy.add(lb);
   enemy.add(rb);
 
-  // mouth
-  const mouthGeo = new THREE.BoxGeometry(0.6, 0.16, 0.08);
-  const mouthMat = new THREE.MeshPhongMaterial({ color: 0x110000 });
+  // mouth (angry grimace)
+  const mouthGeo = new THREE.BoxGeometry(0.3, 0.08, 0.04);
+  const mouthMat = new THREE.MeshPhongMaterial({ color: 0x990000 });
   const mouth = new THREE.Mesh(mouthGeo, mouthMat);
-  mouth.position.set(0, -0.18, 0.63);
+  mouth.position.set(0, 0.6, 0.28);
   enemy.add(mouth);
 
-  // subtle glow in mouth
-  const mouthLight = new THREE.PointLight(0xff4422, 0.6, 3);
-  mouthLight.position.set(0, -0.18, 0.75);
-  enemy.add(mouthLight);
+  // left arm
+  const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.7, 8);
+  const armMat = new THREE.MeshPhongMaterial({ color: 0xd4a574 });
+  const larm = new THREE.Mesh(armGeo, armMat);
+  const rarm = larm.clone();
+  larm.position.set(0.5, 0.15, 0);
+  rarm.position.set(-0.5, 0.15, 0);
+  larm.rotation.z = 0.3;
+  rarm.rotation.z = -0.3;
+  enemy.add(larm);
+  enemy.add(rarm);
+
+  // eye glow light
+  const eyeLight = new THREE.PointLight(0xff6622, 1.0, 5);
+  eyeLight.position.set(0, 0.85, 0.4);
+  enemy.add(eyeLight);
 
   // position & add
   enemy.position.set(8, 0.9, -8);
