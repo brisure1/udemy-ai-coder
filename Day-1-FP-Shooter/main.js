@@ -70,10 +70,50 @@ function init() {
   playerCollider.name = 'player';
   scene.add(playerCollider);
 
-  // enemy (a simple box)
-  const enemyGeo = new THREE.BoxGeometry(1.2, 1.8, 1.2);
-  const enemyMat = new THREE.MeshPhongMaterial({ color: 0xff5555 });
-  const enemy = new THREE.Mesh(enemyGeo, enemyMat);
+  // enemy with a simple face (body + eyes + mouth + brows)
+  const enemy = new THREE.Group();
+  // body
+  const bodyGeo = new THREE.BoxGeometry(1.2, 1.8, 1.2);
+  const bodyMat = new THREE.MeshPhongMaterial({ color: 0x7a2222 });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.position.set(0, 0, 0);
+  enemy.add(body);
+
+  // eyes (glowing)
+  const eyeGeo = new THREE.SphereGeometry(0.12, 8, 8);
+  const eyeMat = new THREE.MeshPhongMaterial({ color: 0xffdd55, emissive: 0xff3300 });
+  const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+  const rightEye = leftEye.clone();
+  leftEye.position.set(0.28, 0.22, 0.63);
+  rightEye.position.set(-0.28, 0.22, 0.63);
+  enemy.add(leftEye);
+  enemy.add(rightEye);
+
+  // brows (angry look)
+  const browGeo = new THREE.BoxGeometry(0.42, 0.06, 0.06);
+  const browMat = new THREE.MeshPhongMaterial({ color: 0x0b0b0b });
+  const lb = new THREE.Mesh(browGeo, browMat);
+  const rb = lb.clone();
+  lb.position.set(0.28, 0.46, 0.58);
+  rb.position.set(-0.28, 0.46, 0.58);
+  lb.rotation.z = -0.35;
+  rb.rotation.z = 0.35;
+  enemy.add(lb);
+  enemy.add(rb);
+
+  // mouth
+  const mouthGeo = new THREE.BoxGeometry(0.6, 0.16, 0.08);
+  const mouthMat = new THREE.MeshPhongMaterial({ color: 0x110000 });
+  const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+  mouth.position.set(0, -0.18, 0.63);
+  enemy.add(mouth);
+
+  // subtle glow in mouth
+  const mouthLight = new THREE.PointLight(0xff4422, 0.6, 3);
+  mouthLight.position.set(0, -0.18, 0.75);
+  enemy.add(mouthLight);
+
+  // position & add
   enemy.position.set(8, 0.9, -8);
   enemy.name = 'enemy';
   scene.add(enemy);
